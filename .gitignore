@@ -21,3 +21,5 @@
 # Go workspace file
 go.work
 
+# Protoc output
+proto/*.pb.go
