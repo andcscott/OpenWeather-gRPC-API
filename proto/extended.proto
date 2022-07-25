@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package weather;
+
+option go_package = "codeberg.org/andcscott/OpenWeatherMap-gRPC-API/proto";
+
+message RequestExtended {
+  oneof location {
+    string city = 1;
+    string zip_code = 2;
+    string coords = 3; // Comma separated coordinates, e.g. "44.5,-123.3"
+  }
+  optional string state = 4; // US Only
+  optional string country = 5; // Must be ISO 3166 country code
+  uint32 days = 6;
+}
+
+message SendExtended {
+  string payload = 1;
+}

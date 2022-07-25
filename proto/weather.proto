@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package weather;
+
+option go_package = "codeberg.org/andcscott/OpenWeatherMap-gRPC-API/proto";
+
+import "current.proto";
+import "extended.proto";
+  
+service WeatherService {
+    rpc Current(RequestCurrent) returns (SendCurrent);
+    rpc Extended(RequestExtended) returns (SendExtended);
+}
