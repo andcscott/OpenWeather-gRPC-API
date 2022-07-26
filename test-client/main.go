@@ -19,5 +19,6 @@ func main() {
 	c := pb.NewWeatherServiceClient(conn)
 
 	//doCurrent(c)
-	doExtended(c)
+	//doExtended(c)
+	doLocation(c)
 }
