@@ -6,8 +6,10 @@ option go_package = "codeberg.org/andcscott/OpenWeatherMap-gRPC-API/proto";
 
 import "current.proto";
 import "extended.proto";
+import "location.proto";
   
 service WeatherService {
-    rpc Current(RequestCurrent) returns (SendCurrent);
-    rpc Extended(RequestExtended) returns (SendExtended);
+  rpc Current(RequestCurrent) returns (SendCurrent);
+  rpc Extended(RequestExtended) returns (SendExtended);
+  rpc Location(RequestLocation) returns (SendLocation);
 }
