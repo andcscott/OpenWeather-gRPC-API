@@ -10,6 +10,8 @@ import (
 	pb "codeberg.org/andcscott/OpenWeatherMap-gRPC-API/proto"
 )
 
+// Receives a gRPC request for the current forecast
+// Returns a SendCurrent message containing the forecast in JSON
 func (s *Server) Current(ctx context.Context, in *pb.RequestCurrent) (*pb.SendCurrent, error) {
 	log.Println("'Current' function called...")
 

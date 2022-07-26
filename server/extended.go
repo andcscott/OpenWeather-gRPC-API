@@ -11,6 +11,8 @@ import (
 	pb "codeberg.org/andcscott/OpenWeatherMap-gRPC-API/proto"
 )
 
+// Receives a gRPC request for an extended forecast
+// Returns a SendExtended message with the forecast in JSON
 func (s *Server) Extended(ctx context.Context, in *pb.RequestExtended) (*pb.SendExtended, error) {
 	log.Println("'Extended' function called...")
 
