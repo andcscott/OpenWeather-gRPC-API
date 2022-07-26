@@ -9,6 +9,7 @@ import "location_types.proto";
 message RequestCurrent {
   //LocationType location_type = 1; NOT IMPLEMENTED YET
   string city = 1;
+  // optional string zip_code = 2; NOT IMPLEMENTED YET
   optional string state = 2; // US Only
   optional string country = 3; // Must be ISO 3166 country code
 }
