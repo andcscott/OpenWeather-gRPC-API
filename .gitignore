@@ -8,7 +8,8 @@
 *.dll
 *.so
 *.dylib
-
+bin/
+    
 # Test binary, built with `go test -c`
 *.test
 
@@ -23,3 +24,6 @@ go.work
 
 # Protoc output
 proto/*.pb.go
+
+# Godotenv
+*.env
