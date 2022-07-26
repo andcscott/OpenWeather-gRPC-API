@@ -1,4 +1,4 @@
-# OpenWeatherMap-gRPC-Server
+# OpenWeatherMap-gRPC-API
 
 A microservice that accepts remote procedure calls to fetch weather data.
 
