@@ -12,7 +12,7 @@ import (
 	"google.golang.org/grpc"
 )
 
-type server struct {
+type Server struct {
 	pb.WeatherServiceServer
 }
 
@@ -33,7 +33,7 @@ func main() {
 	}
 
 	s := grpc.NewServer()
-	pb.RegisterWeatherServiceServer(s, &server{})
+	pb.RegisterWeatherServiceServer(s, &Server{})
 	if err = s.Serve(lis); err != nil {
 		log.Fatalf("gRPC Server error: %v\n", err)
 	}

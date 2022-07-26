@@ -16,7 +16,7 @@ func getCurrent(in *pb.RequestCurrent) string {
 	url := "https://pro.openweathermap.org/data/2.5/weather?q="
 	token := "&appid=" + os.Getenv("API_KEY")
 
-	url = url + city + token
+	url = url + city + "&units=imperial" + token
 
 	res, err := http.Get(url)
 	if err != nil {
@@ -28,12 +28,10 @@ func getCurrent(in *pb.RequestCurrent) string {
 	if err != nil {
 		log.Printf("Error reading weather response: %v", err)
 	}
-
 	return string(body)
-
 }
 
-func (s *server) Current(ctx context.Context, in *pb.RequestCurrent) (*pb.SendCurrent, error) {
+func (s *Server) Current(ctx context.Context, in *pb.RequestCurrent) (*pb.SendCurrent, error) {
 	log.Println("'Current' function called...")
 
 	return &pb.SendCurrent{
