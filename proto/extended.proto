@@ -4,15 +4,14 @@ package weather;
 
 option go_package = "codeberg.org/andcscott/OpenWeatherMap-gRPC-API/proto";
 
+import "location_types.proto";
+
 message RequestExtended {
-  oneof location {
-    string city = 1;
-    string zip_code = 2;
-    string coords = 3; // Comma separated coordinates, e.g. "44.5,-123.3"
-  }
-  optional string state = 4; // US Only
-  optional string country = 5; // Must be ISO 3166 country code
-  uint32 days = 6;
+  LocationType location_type = 1;
+  string location = 2; // zip/postal code, city name, or comma separated coords "-81.2,40.5" 
+  optional string state = 3; // US Only
+  optional string country = 4; // Must be ISO 3166 country code
+  uint32 days = 5;
 }
 
 message SendExtended {
