@@ -17,7 +17,7 @@ func (s *Server) Current(ctx context.Context, in *pb.RequestCurrent) (*pb.SendCu
 	log.Println("'Current' function called...")
 
 	url := "https://pro.openweathermap.org/data/2.5/weather?"
-	lat, lon := getLocation(in, in.City)
+	lat, lon := getLocation(in.City)
 	units := "&units=imperial"
 	token := "&appid=" + os.Getenv("API_KEY")
 

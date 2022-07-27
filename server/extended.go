@@ -17,7 +17,7 @@ func (s *Server) Extended(ctx context.Context, in *pb.RequestExtended) (*pb.Send
 	log.Println("'Extended' function called...")
 
 	url := "https://api.openweathermap.org/data/2.5/forecast/daily?"
-	lat, lon := getLocation(in, in.City)
+	lat, lon := getLocation(in.City)
 	days := "&cnt=" + fmt.Sprint(in.Days)
 	units := "&units=imperial"
 	token := "&appid=" + os.Getenv("API_KEY")
