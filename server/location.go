@@ -20,36 +20,15 @@ type Coordinates struct {
 func (s *Server) Location(ctx context.Context, in *pb.RequestLocation) (*pb.SendLocation, error) {
 	log.Println("'Location' function called...")
 
-	url := "http://api.openweathermap.org/geo/1.0/direct?q="
-	city := in.City
-	token := "&appid=" + s.ApiKey
-
-	url = url + city + token
-
-	res, err := http.Get(url)
-	if err != nil {
-		log.Printf("Error fetching location: %v\n", err)
-	}
-	defer res.Body.Close()
-
-	body, err := ioutil.ReadAll(res.Body)
-	if err != nil {
-		log.Printf("Error reading location: %v\n", err)
-	}
-
-	coords := []Coordinates{}
-	err = json.Unmarshal(body, &coords)
-	if err != nil {
-		log.Printf("Error decoding JSON: %v\n", err)
-	}
+	lat, lon := getLocation(in.City, s.ApiKey)
 
 	return &pb.SendLocation{
-		Latitude:  coords[0].Latitude,
-		Longitude: coords[0].Longitude,
+		Latitude:  lat,
+		Longitude: lon,
 	}, nil
 }
 
-// Used internally to fetch precise locations for Current and Extended
+// Used internally to fetch precise locations
 // Receives gRPC requests (interface) and the location (string)
 // Returns the latitude (float32) and longitude (float32) for a given location
 func getLocation(city string, key string) (float32, float32) {
