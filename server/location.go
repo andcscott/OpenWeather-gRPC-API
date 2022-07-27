@@ -51,15 +51,14 @@ func (s *Server) Location(ctx context.Context, in *pb.RequestLocation) (*pb.Send
 }
 
 // Used internally to fetch precise locations for Current and Extended
-// Receives gRPC requests as an interface
+// Receives gRPC requests (interface) and the location (string)
 // Returns the latitude (float32) and longitude (float32) for a given location
-func getLocation(msg interface{}) (float32, float32) {
+func getLocation(msg interface{}, loc string) (float32, float32) {
 
 	url := "http://api.openweathermap.org/geo/1.0/direct?q="
-	city := in.City
 	token := "&appid=" + os.Getenv("API_KEY")
 
-	url = url + city + token
+	url = url + loc + token
 
 	res, err := http.Get(url)
 	if err != nil {

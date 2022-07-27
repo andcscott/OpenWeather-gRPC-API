@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -15,11 +16,12 @@ import (
 func (s *Server) Current(ctx context.Context, in *pb.RequestCurrent) (*pb.SendCurrent, error) {
 	log.Println("'Current' function called...")
 
-	url := "https://pro.openweathermap.org/data/2.5/weather?q="
-	city := in.City
+	url := "https://pro.openweathermap.org/data/2.5/weather?"
+	lat, lon := getLocation(in, in.City)
+	units := "&units=imperial"
 	token := "&appid=" + os.Getenv("API_KEY")
 
-	url = url + city + "&units=imperial" + token
+	url = url + fmt.Sprintf("lat=%f", lat) + fmt.Sprintf("&lon=%f", lon) + units + token
 
 	res, err := http.Get(url)
 	if err != nil {
