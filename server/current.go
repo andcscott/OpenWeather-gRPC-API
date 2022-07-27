@@ -6,7 +6,6 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"os"
 
 	pb "codeberg.org/andcscott/OpenWeatherMap-gRPC-API/proto"
 )
@@ -17,9 +16,9 @@ func (s *Server) Current(ctx context.Context, in *pb.RequestCurrent) (*pb.SendCu
 	log.Println("'Current' function called...")
 
 	url := "https://pro.openweathermap.org/data/2.5/weather?"
-	lat, lon := getLocation(in.City)
+	lat, lon := getLocation(in.City, s.ApiKey)
 	units := "&units=imperial"
-	token := "&appid=" + os.Getenv("API_KEY")
+	token := "&appid=" + s.ApiKey
 
 	url = url + fmt.Sprintf("lat=%f", lat) + fmt.Sprintf("&lon=%f", lon) + units + token
 
@@ -34,7 +33,5 @@ func (s *Server) Current(ctx context.Context, in *pb.RequestCurrent) (*pb.SendCu
 		log.Printf("Error reading weather response: %v", err)
 	}
 
-	return &pb.SendCurrent{
-		Payload: string(body),
-	}, nil
+	return &pb.SendCurrent{Payload: string(body)}, nil
 }

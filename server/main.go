@@ -14,6 +14,7 @@ import (
 
 type Server struct {
 	pb.WeatherServiceServer
+	ApiKey string
 }
 
 func main() {
@@ -37,7 +38,7 @@ func main() {
 
 	// Initialize gRPC server
 	s := grpc.NewServer()
-	pb.RegisterWeatherServiceServer(s, &Server{})
+	pb.RegisterWeatherServiceServer(s, &Server{ApiKey: os.Getenv("API_KEY")})
 	if err = s.Serve(lis); err != nil {
 		log.Fatalf("gRPC Server error: %v\n", err)
 	}

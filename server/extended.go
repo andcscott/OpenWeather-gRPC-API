@@ -6,7 +6,6 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"os"
 
 	pb "codeberg.org/andcscott/OpenWeatherMap-gRPC-API/proto"
 )
@@ -17,10 +16,10 @@ func (s *Server) Extended(ctx context.Context, in *pb.RequestExtended) (*pb.Send
 	log.Println("'Extended' function called...")
 
 	url := "https://api.openweathermap.org/data/2.5/forecast/daily?"
-	lat, lon := getLocation(in.City)
+	lat, lon := getLocation(in.City, s.ApiKey)
 	days := "&cnt=" + fmt.Sprint(in.Days)
 	units := "&units=imperial"
-	token := "&appid=" + os.Getenv("API_KEY")
+	token := "&appid=" + s.ApiKey
 
 	url = url + fmt.Sprintf("lat=%f", lat) + fmt.Sprintf("&lon=%f", lon) + units + days + token
 
