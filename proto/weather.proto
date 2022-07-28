@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+package weather;
+
+option go_package = "codeberg.org/andcscott/OpenWeatherMap-gRPC-API/proto";
+
+//import "location.proto"
+
+// Sub-message used by Current & Extended to specify preferred units
+enum Units {
+  UNITS_UNSPECIFIED = 0;
+  UNITS_STANDARD = 1;
+  UNITS_METRIC = 2;
+  UNITS_IMPERIAL = 3;
+}
+
+/* Get the current forecast for a given location
+ * Commented parameters in the message definition are not implemeneted yet
+ * location_type {enum} - name or value
+ * units {enum} - name or value
+ * city {string} - case insensitive, spaces and punctuation allowed
+ * zip_code {string} - non-numeric values permitted
+ * coordinates {Coordinates} - Coordinates message with latitude and longitude
+ */
+message RequestCurrent {
+  // LocationType location_type = 1;
+  // Units units = 2;
+  string city = 1;
+  // optional string zip_code = 2;
+  // Coordinates coordinates = 2;
+}
+
+// Response to RequestCurrent
+message SendCurrent {
+  string payload = 1;
+}
+
+/* Get the extended forecast for a given location up to 16 days in the future
+ * Commented parameters in the message definition are not implemeneted yet
+ * location_type {enum} - name or value
+ * units {enum} - name or value
+ * city {string} - case insensitive, spaces and punctuation allowed
+ * zip_code {string} - non-numeric values permitted
+ * coordinates {Coordinates} - Coordinates message with latitude and longitude
+ * days {uint32} - number of days to fetch, max 16
+ */
+message RequestExtended {
+  // LocationType location_type = 1;
+  // Units units = 2;
+  string city = 1;
+  // optional string zip_code = 2;
+  // Coordinates coordinates = 3; 
+  uint32 days = 2;
+}
+
+// Response to RequestExtended
+message SendExtended {
+  string payload = 1;
+}

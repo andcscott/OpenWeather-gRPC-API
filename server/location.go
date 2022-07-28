@@ -29,8 +29,8 @@ func (s *Server) Location(ctx context.Context, in *pb.RequestLocation) (*pb.Send
 }
 
 // Used internally to fetch precise locations
-// Receives gRPC requests (interface) and the location (string)
-// Returns the latitude (float32) and longitude (float32) for a given location
+// Receives the city name and the server's API key
+// Returns the latitude and longitude for the given location
 func getLocation(city string, key string) (float32, float32) {
 
 	url := "http://api.openweathermap.org/geo/1.0/direct?q="
