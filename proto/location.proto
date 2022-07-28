@@ -4,18 +4,37 @@ package weather;
 
 option go_package = "codeberg.org/andcscott/OpenWeatherMap-gRPC-API/proto";
 
-//import "location_types.proto";
 //import "units.proto"
 
-message RequestLocation {
-  //LocationType location_type = 1; NOT IMPLEMENTED YET
-  //Units units = 2; NOT IMPLEMENTED YET
-  string city = 1;
-  // optional string zip_code = 2; NOT IMPLEMENTED YET
-  // optional string state = 2; // US Only / NOT IMPLEMENTED YET
-  // optional string country = 3; // Must be an ISO 3166 code / NOT IMPLEMENTED YET
+// Sub-message used by Current & Extended for exact coordinates
+message Coordinates {
+  float latitude = 1;
+  float longitude = 2;
 }
 
+// Used by Location, Current, and Extended to help the API find info for the
+// correct location. If unspecified, an attept is still made but results may
+// be inaccurate
+enum LocationType {
+  LOCATION_TYPE_UNSPECIFIED = 0;
+  LOCATION_CITY = 1;
+  LOCATION_ZIP = 2;
+  LOCATION_COORDS = 3;
+}
+
+/* Get the latitude and longitude for a given location
+ * Commented parameters in the message definition are not implemeneted yet
+ * location_type {enum} - name or value
+ * city {string} - case insensitive, spaces and punctuation allowed
+ * zip_code {string} - non-numeric values permitted
+ */
+message RequestLocation {
+  // LocationType location_type = 1;
+  string city = 1;
+  // optional string zip_code = 2;
+}
+
+// Response to RequestLocation
 message SendLocation {
   float latitude = 1;
   float longitude = 2;

@@ -4,8 +4,7 @@ package weather;
 
 option go_package = "codeberg.org/andcscott/OpenWeatherMap-gRPC-API/proto";
 
-import "current.proto";
-import "extended.proto";
+import "weather.proto";
 import "location.proto";
   
 service WeatherService {
