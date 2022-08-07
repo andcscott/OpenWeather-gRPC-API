@@ -14,23 +14,29 @@ At minimum, an API key that can access the the
 [Geocoding](https://openweathermap.org/api/geocoding-api) APIs is
 required.
 
+### Starting the Server
+
 Before starting the server a file named `.env` must be be added to the 
-root directory of the project, or the directory that contains the binary file, 
-with the following fields:
+root directory of the project, or the directory from which you'll execute 
+the binary file, with the following fields:
 
 ```
 API_KEY=xxxxxxxxxxxxxxxx
 PORT=xxxxx
 ```
 
+If you don't want to compile the code or can't use one of the binary releases 
+you can run the server with the command `go run server/*.go` from the 
+root of the project.
+
 ## Sending Requests
 
 ### Basic Workflow
 
-1. Generate the necessary code for your preferred language from the files in
-the proto directory with the protoc compiler
-    - Note that the `protoc-gen-go` and `protoc-gen-go-grpc` plugins must be installed
-2. Import the code into your project
+1. Generate some server-side code and the code for your preferred language from the files in
+the proto directory with the protocol compiler `protoc`
+    - Note that the `protoc-gen-go` and `protoc-gen-go-grpc` plugins must be installed to generate the server-side code
+2. Import your newly generated code into your project (Leave the servers code in the proto directory)
 3. Use the imported code to allow your client to connect with the server
 4. Use the imported code within your own functions to make requests
 
