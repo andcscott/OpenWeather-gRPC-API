@@ -15,7 +15,7 @@ import (
 func (s *Server) Current(ctx context.Context, in *pb.RequestCurrent) (*pb.SendCurrent, error) {
 	log.Println("'Current' function called...")
 
-	url := "https://pro.openweathermap.org/data/2.5/weather?"
+	url := "https://api.openweathermap.org/data/2.5/weather?"
 	lat, lon := getLocation(in.City, s.ApiKey)
 	units := "&units=imperial"
 	token := "&appid=" + s.ApiKey
