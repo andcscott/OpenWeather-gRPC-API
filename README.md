@@ -6,8 +6,22 @@ The service uses [protocol buffers](https://developers.google.com/protocol-buffe
 to define a [gRPC API](https://grpc.io/docs/what-is-grpc/introduction/) that
 fetches current and extended weather data. 
 
-Weather data is obtained from [OpenWeather's](https://openweathermap.org/api)
-high-end servers.
+Weather and geolocation data is obtained from 
+[OpenWeatherMap.org](https://openweathermap.org/api). 
+At minimum, an API key that can access the the
+[Current weather](https://openweathermap.org/current), 
+[Daily Forecast 16 Days](https://openweathermap.org/forecast16), and
+[Geocoding](https://openweathermap.org/api/geocoding-api) APIs is
+required.
+
+Before starting the server a file named `.env` must be be added to the 
+root directory of the project, or the directory that contains the binary file, 
+with the following fields:
+
+```
+API_KEY=xxxxxxxxxxxxxxxx
+PORT=xxxxx
+```
 
 ## Sending Requests
 
@@ -15,6 +29,7 @@ high-end servers.
 
 1. Generate the necessary code for your preferred language from the files in
 the proto directory with the protoc compiler
+    - Note that the `protoc-gen-go` and `protoc-gen-go-grpc` plugins must be installed
 2. Import the code into your project
 3. Use the imported code to allow your client to connect with the server
 4. Use the imported code within your own functions to make requests
@@ -74,11 +89,13 @@ See the [test-client](test-client/current.go) for more details.
 
 ## Receiving the response
 
-Data will be sent to your client as JSON. Example from the above call:
+Data will be sent to your client as JSON when requesting forecasts. Example from the above call:
 
 ```
 {"coord":{"lon":-123.262,"lat":44.5646},"weather":[{"id":800,"main":"Clear","description":"clear sky","icon":"01n"}],"base":"stations","main":{"temp":296.87,"feels_like":297.13,"temp_min":294.98,"temp_max":298.62,"pressure":1007,"humidity":70},"visibility":10000,"wind":{"speed":2.14,"deg":284,"gust":1.94},"clouds":{"all":0},"dt":1658811503,"sys":{"type":2,"id":2005452,"country":"US","sunrise":1658753522,"sunset":1658807208},"timezone":-25200,"id":5720727,"name":"Corvallis","cod":200}
 ```
+
+Geolocation requests return a pair of floats representing the latitude and longitude for the given location.
 
 ## UML Diagram
 
