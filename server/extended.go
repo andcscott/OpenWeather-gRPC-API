@@ -15,7 +15,7 @@ import (
 func (s *Server) Extended(ctx context.Context, in *pb.RequestExtended) (*pb.SendExtended, error) {
 	log.Println("'Extended' function called...")
 
-	url := "https://api.openweathermap.org/data/2.5/forecast/daily?"
+	url := "https://pro.openweathermap.org/data/2.5/forecast/daily?"
 	lat, lon := getLocation(in.City, s.ApiKey)
 	days := "&cnt=" + fmt.Sprint(in.Days)
 	units := "&units=imperial"
