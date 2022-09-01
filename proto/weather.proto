@@ -4,7 +4,7 @@ package weather;
 
 option go_package = "codeberg.org/andcscott/OpenWeatherMap-gRPC-API/proto";
 
-//import "location.proto"
+import "location.proto";
 
 // Sub-message used by Current & Extended to specify preferred units
 enum Units {
@@ -23,11 +23,11 @@ enum Units {
  * coordinates {Coordinates} - Coordinates message with latitude and longitude
  */
 message RequestCurrent {
-  // LocationType location_type = 1;
-  // Units units = 2;
-  string city = 1;
-  // optional string zip_code = 2;
-  // Coordinates coordinates = 2;
+  LocationType location_type = 1;
+  Units units = 2;
+  optional string city = 3;
+  optional string zip_code = 4;
+  optional Coordinates coordinates = 5;
 }
 
 // Response to RequestCurrent
@@ -42,18 +42,16 @@ message SendCurrent {
  * city {string} - case insensitive, spaces and punctuation allowed
  * zip_code {string} - non-numeric values permitted
  * coordinates {Coordinates} - Coordinates message with latitude and longitude
- * days {uint32} - number of days to fetch, max 16
  */
-message RequestExtended {
-  // LocationType location_type = 1;
-  // Units units = 2;
-  string city = 1;
-  // optional string zip_code = 2;
-  // Coordinates coordinates = 3; 
-  uint32 days = 2;
+message RequestFiveDay {
+  LocationType location_type = 1;
+  Units units = 2;
+  optional string city = 3;
+  optional string zip_code = 4;
+  optional Coordinates coordinates = 5; 
 }
 
 // Response to RequestExtended
-message SendExtended {
+message SendFiveDay {
   string payload = 1;
 }

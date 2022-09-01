@@ -4,8 +4,6 @@ package weather;
 
 option go_package = "codeberg.org/andcscott/OpenWeatherMap-gRPC-API/proto";
 
-//import "units.proto"
-
 // Sub-message used by Current & Extended for exact coordinates
 message Coordinates {
   float latitude = 1;
@@ -29,9 +27,9 @@ enum LocationType {
  * zip_code {string} - non-numeric values permitted
  */
 message RequestLocation {
-  // LocationType location_type = 1;
-  string city = 1;
-  // optional string zip_code = 2;
+  LocationType location_type = 1;
+  optional string city = 2;
+  optional string zip_code = 3;
 }
 
 // Response to RequestLocation
