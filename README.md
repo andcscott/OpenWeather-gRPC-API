@@ -1,4 +1,4 @@
-# OpenWeatherMap-gRPC-API
+# OpenWeather-gRPC-API
 
 A microservice that accepts remote procedure calls to fetch weather data.
 
@@ -103,8 +103,8 @@ Data will be sent to your client as JSON when requesting forecasts. Example from
 
 Geolocation requests return a pair of floats representing the latitude and longitude for the given location.
 
-## UML Diagram
+## UML Sequence Diagram
 
-![UML diagram](info/UML.png)
+<a href="https://codeberg.org/andcscott/OpenWeather-gRPC-API/media/branch/main/info/UML.png"><img src="info/UML.png" alt="UML sequence diagram" align="center" width="500"/></a>
 
 
