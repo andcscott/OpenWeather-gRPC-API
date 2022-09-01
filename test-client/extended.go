@@ -7,11 +7,16 @@ import (
 	pb "codeberg.org/andcscott/OpenWeatherMap-gRPC-API/proto"
 )
 
-func doExtended(c pb.WeatherServiceClient) {
+func doFiveDay(c pb.WeatherServiceClient) {
 
-	res, err := c.Extended(context.Background(), &pb.RequestExtended{
-		City: "Corvallis",
-		Days: 7,
+	res, err := c.FiveDay(context.Background(), &pb.RequestFiveDay{
+		LocationType: pb.LocationType_LOCATION_TYPE_CITY,
+		Units:        pb.Units_UNITS_IMPERIAL,
+		Location: &pb.OneOfLocation{
+			LocationId: &pb.OneOfLocation_City{
+				City: "Corvalls",
+			},
+		},
 	})
 	if err != nil {
 		log.Fatalln(err)
