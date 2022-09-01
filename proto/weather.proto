@@ -15,19 +15,14 @@ enum Units {
 }
 
 /* Get the current forecast for a given location
- * Commented parameters in the message definition are not implemeneted yet
- * location_type {enum} - name or value
- * units {enum} - name or value
- * city {string} - case insensitive, spaces and punctuation allowed
- * zip_code {string} - non-numeric values permitted
- * coordinates {Coordinates} - Coordinates message with latitude and longitude
+ * location_type {LocationType} - name or value of the desired LocationType enum
+ * units {Units} - name or value of the desired Units enum
+ * location {OneOfLocation} - city name, zip code, or coordinates
  */
 message RequestCurrent {
   LocationType location_type = 1;
   Units units = 2;
-  optional string city = 3;
-  optional string zip_code = 4;
-  optional Coordinates coordinates = 5;
+  OneOfLocation location = 3;
 }
 
 // Response to RequestCurrent
@@ -36,19 +31,14 @@ message SendCurrent {
 }
 
 /* Get the extended forecast for a given location up to 16 days in the future
- * Commented parameters in the message definition are not implemeneted yet
- * location_type {enum} - name or value
- * units {enum} - name or value
- * city {string} - case insensitive, spaces and punctuation allowed
- * zip_code {string} - non-numeric values permitted
- * coordinates {Coordinates} - Coordinates message with latitude and longitude
+ * location_type {LocationType} - name or value of the desired LocationType enum
+ * units {Units} - name or value of the desired Units enum
+ * location {OneOfLocation} - city name, zip code, or coordinates
  */
 message RequestFiveDay {
   LocationType location_type = 1;
   Units units = 2;
-  optional string city = 3;
-  optional string zip_code = 4;
-  optional Coordinates coordinates = 5; 
+  OneOfLocation location = 3;
 }
 
 // Response to RequestExtended

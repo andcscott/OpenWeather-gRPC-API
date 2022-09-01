@@ -9,6 +9,6 @@ import "location.proto";
   
 service WeatherService {
   rpc Current(RequestCurrent) returns (SendCurrent);
-  rpc Extended(RequestFiveDay) returns (SendFiveDay);
+  rpc FiveDay(RequestFiveDay) returns (SendFiveDay);
   rpc Location(RequestLocation) returns (SendLocation);
 }
