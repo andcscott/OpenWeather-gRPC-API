@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -20,7 +21,10 @@ type Coordinates struct {
 func (s *Server) Location(ctx context.Context, in *pb.RequestLocation) (*pb.SendLocation, error) {
 	log.Println("'Location' function called...")
 
-	lat, lon := getLocation(in.City, s.ApiKey)
+	lat, lon, err := getLocation(in.Location.String(), s.ApiKey)
+	if err != nil {
+		return nil, fmt.Errorf("Error: %v\n", err)
+	}
 
 	return &pb.SendLocation{
 		Latitude:  lat,
@@ -31,12 +35,12 @@ func (s *Server) Location(ctx context.Context, in *pb.RequestLocation) (*pb.Send
 // Used internally to fetch precise locations
 // Receives the city name and the server's API key
 // Returns the latitude and longitude for the given location
-func getLocation(city string, key string) (float32, float32) {
+func getLocation(location string, key string) (float32, float32, error) {
 
 	url := "http://api.openweathermap.org/geo/1.0/direct?q="
 	token := "&appid=" + key
 
-	url = url + city + token
+	url = url + location + token
 
 	res, err := http.Get(url)
 	if err != nil {
@@ -52,7 +56,8 @@ func getLocation(city string, key string) (float32, float32) {
 	coords := []Coordinates{}
 	err = json.Unmarshal(body, &coords)
 	if err != nil {
-		log.Printf("Error decoding JSON: %v\n", err)
+		log.Printf("Error decoding geolocation JSON: %v\n", err)
 	}
-	return coords[0].Latitude, coords[0].Longitude
+
+	return coords[0].Latitude, coords[0].Longitude, err
 }
