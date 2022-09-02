@@ -11,10 +11,10 @@ func doFiveDay(c pb.WeatherServiceClient) {
 
 	res, err := c.FiveDay(context.Background(), &pb.RequestFiveDay{
 		LocationType: pb.LocationType_LOCATION_TYPE_CITY,
-		Units:        pb.Units_UNITS_IMPERIAL,
+		Units:        pb.Units_UNITS_METRIC,
 		Location: &pb.OneOfLocation{
 			LocationId: &pb.OneOfLocation_City{
-				City: "Corvalls",
+				City: "",
 			},
 		},
 	})
