@@ -21,11 +21,26 @@ type Coordinates struct {
 // Receives a gRPC request for Location
 // Returns a SendLocation message with the Latitude and Longitude
 func (s *Server) Location(ctx context.Context, in *pb.RequestLocation) (*pb.SendLocation, error) {
-	log.Println("'Location' function called...")
+	log.Printf("'Location' called, location: %v\n", in.Location)
 
-	lat, lon, err := getLocation(in.Location.String(), s.ApiKey)
+	var err error
+	var lat, lon float32
+
+	switch in.LocationType {
+	case pb.LocationType_LOCATION_TYPE_CITY:
+		lat, lon, err = getLocation(in.Location.GetCity(), s.ApiKey)
+	case pb.LocationType_LOCATION_TYPE_ZIP_CODE:
+		lat, lon, err = getZipLocation(in.Location.GetZipCode(), s.ApiKey)
+	default:
+		lat, lon, err = getLocation(in.Location.String(), s.ApiKey)
+	}
 	if err != nil {
-		return nil, fmt.Errorf("Error: %v\n", err)
+		return nil, status.Errorf(
+			codes.InvalidArgument,
+			fmt.Sprintf("Invalid location or location type: %s, %s\n",
+				in.Location.String(),
+				in.LocationType.String()),
+		)
 	}
 
 	return &pb.SendLocation{
@@ -38,7 +53,7 @@ func (s *Server) Location(ctx context.Context, in *pb.RequestLocation) (*pb.Send
 // Receives the city name and the server's API key
 // Returns the latitude and longitude for the given location
 func getLocation(location string, key string) (float32, float32, error) {
-	log.Println("'getLocation' function called...")
+	log.Printf("'getLocation' called, location: %v\n", location)
 
 	url := "http://api.openweathermap.org/geo/1.0/direct?q="
 	token := "&appid=" + key
@@ -70,7 +85,7 @@ func getLocation(location string, key string) (float32, float32, error) {
 }
 
 func getZipLocation(zip string, key string) (float32, float32, error) {
-	log.Println("'getZipLocation' function called...")
+	log.Printf("'getZipLocation' called, zip code: %v\n", zip)
 
 	url := "https://api.openweathermap.org/geo/1.0/zip?zip="
 	token := "&appid=" + key
