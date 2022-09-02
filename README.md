@@ -116,6 +116,6 @@ given location. Example from the above call:
 
 ## UML Sequence Diagram
 
-<a href="./info/UML.png"><img src="info/UML.png" alt="UML sequence diagram" align="center" width="500"/></a>
+<a href="https://codeberg.org/andcscott/OpenWeather-gRPC-API/src/branch/main/info/UML.png"><img src="info/UML.png" alt="UML sequence diagram" align="center" width="500"/></a>
 
 
