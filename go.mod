@@ -1,4 +1,4 @@
-module codeberg.org/andcscott/OpenWeatherMap-gRPC-API
+module codeberg.org/andcscott/OpenWeather-gRPC-API
 
 go 1.19
 

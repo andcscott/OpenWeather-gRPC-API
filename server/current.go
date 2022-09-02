@@ -7,7 +7,7 @@ import (
 	"log"
 	"net/http"
 
-	pb "codeberg.org/andcscott/OpenWeatherMap-gRPC-API/proto"
+	pb "codeberg.org/andcscott/OpenWeather-gRPC-API/proto"
 )
 
 // Receives a gRPC request for the current forecast

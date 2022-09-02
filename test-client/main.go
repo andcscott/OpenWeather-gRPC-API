@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	pb "codeberg.org/andcscott/OpenWeatherMap-gRPC-API/proto"
+	pb "codeberg.org/andcscott/OpenWeather-gRPC-API/proto"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )

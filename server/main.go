@@ -7,7 +7,7 @@ import (
 	"os"
 	"strconv"
 
-	pb "codeberg.org/andcscott/OpenWeatherMap-gRPC-API/proto"
+	pb "codeberg.org/andcscott/OpenWeather-gRPC-API/proto"
 	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
 )

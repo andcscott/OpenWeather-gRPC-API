@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package weather;
 
-option go_package = "codeberg.org/andcscott/OpenWeatherMap-gRPC-API/proto";
+option go_package = "codeberg.org/andcscott/OpenWeather-gRPC-API/proto";
 
 import "location.proto";
 

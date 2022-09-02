@@ -4,17 +4,17 @@ import (
 	"context"
 	"log"
 
-	pb "codeberg.org/andcscott/OpenWeatherMap-gRPC-API/proto"
+	pb "codeberg.org/andcscott/OpenWeather-gRPC-API/proto"
 )
 
 func doCurrent(c pb.WeatherServiceClient) {
 
 	res, err := c.Current(context.Background(), &pb.RequestCurrent{
-		LocationType: pb.LocationType_LOCATION_TYPE_ZIP_CODE,
+		LocationType: pb.LocationType_LOCATION_TYPE_CITY,
 		Units:        pb.Units_UNITS_METRIC,
 		Location: &pb.OneOfLocation{
-			LocationId: &pb.OneOfLocation_ZipCode{
-				ZipCode: "97330",
+			LocationId: &pb.OneOfLocation_City{
+				City: "Corvallis",
 			},
 		},
 	})

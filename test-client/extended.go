@@ -4,7 +4,7 @@ import (
 	"context"
 	"log"
 
-	pb "codeberg.org/andcscott/OpenWeatherMap-gRPC-API/proto"
+	pb "codeberg.org/andcscott/OpenWeather-gRPC-API/proto"
 )
 
 func doFiveDay(c pb.WeatherServiceClient) {
