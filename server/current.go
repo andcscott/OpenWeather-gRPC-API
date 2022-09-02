@@ -13,7 +13,7 @@ import (
 // Receives a gRPC request for the current forecast
 // Returns a SendCurrent message containing the forecast in JSON
 func (s *Server) Current(ctx context.Context, in *pb.RequestCurrent) (*pb.SendCurrent, error) {
-	log.Println("'Current' function called...")
+	log.Printf("'Current' called: %v\n", in)
 
 	url := "https://api.openweathermap.org/data/2.5/weather?"
 	lat, lon, err := getLocation(in.Location.String(), s.ApiKey)
