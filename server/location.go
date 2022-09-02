@@ -9,6 +9,8 @@ import (
 	"net/http"
 
 	pb "codeberg.org/andcscott/OpenWeatherMap-gRPC-API/proto"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 type Coordinates struct {
@@ -36,6 +38,7 @@ func (s *Server) Location(ctx context.Context, in *pb.RequestLocation) (*pb.Send
 // Receives the city name and the server's API key
 // Returns the latitude and longitude for the given location
 func getLocation(location string, key string) (float32, float32, error) {
+	log.Println("'getLocation' function called...")
 
 	url := "http://api.openweathermap.org/geo/1.0/direct?q="
 	token := "&appid=" + key
@@ -59,5 +62,41 @@ func getLocation(location string, key string) (float32, float32, error) {
 		log.Printf("Error decoding geolocation JSON: %v\n", err)
 	}
 
-	return coords[0].Latitude, coords[0].Longitude, err
+	if len(coords) < 1 {
+		return 0, 0, status.Error(codes.NotFound, "Location not found")
+	}
+
+	return coords[0].Latitude, coords[0].Longitude, nil
+}
+
+func getZipLocation(zip string, key string) (float32, float32, error) {
+	log.Println("'getZipLocation' function called...")
+
+	url := "https://api.openweathermap.org/geo/1.0/zip?zip="
+	token := "&appid=" + key
+
+	url = url + zip + token
+
+	res, err := http.Get(url)
+	if err != nil {
+		log.Printf("Error fetching location: %v\n", err)
+	}
+	defer res.Body.Close()
+
+	body, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		log.Printf("Error reading location: %v\n", err)
+	}
+
+	coords := Coordinates{}
+	err = json.Unmarshal(body, &coords)
+	if err != nil {
+		log.Printf("Error decoding geolocation JSON: %v\n", err)
+	}
+
+	if coords.Latitude == 0 && coords.Longitude == 0 {
+		return 0, 0, status.Error(codes.NotFound, "Location not found")
+	}
+
+	return coords.Latitude, coords.Longitude, nil
 }
