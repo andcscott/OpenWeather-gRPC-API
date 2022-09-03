@@ -105,14 +105,14 @@ func fetchForecast(url string) (string, error) {
 
 	res, err := http.Get(url)
 	if err != nil {
-		log.Printf("Error fetching extended weather: %v\n", err)
+		log.Printf("Error fetching forecast: %v\n", err)
 		return "", err
 	}
 	defer res.Body.Close()
 
 	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {
-		log.Printf("Error reading extending weather: %v\n", err)
+		log.Printf("Error reading response from OpenWeather: %v\n", err)
 		return "", err
 	}
 
