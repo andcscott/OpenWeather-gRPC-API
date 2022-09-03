@@ -10,11 +10,14 @@ import (
 func doFiveDay(c pb.WeatherServiceClient) {
 
 	res, err := c.FiveDay(context.Background(), &pb.RequestFiveDay{
-		LocationType: pb.LocationType_LOCATION_TYPE_UNSPECIFIED,
-		Units:        pb.Units_UNITS_METRIC,
+		LocationType: pb.LocationType_LOCATION_TYPE_COORDS,
+		Units:        pb.Units_UNITS_IMPERIAL,
 		Location: &pb.OneOfLocation{
-			LocationId: &pb.OneOfLocation_ZipCode{
-				ZipCode: "97330",
+			LocationId: &pb.OneOfLocation_Coords{
+				Coords: &pb.Coordinates{
+					Latitude:  41,
+					Longitude: -123,
+				},
 			},
 		},
 	})
