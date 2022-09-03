@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"strconv"
 
 	pb "codeberg.org/andcscott/OpenWeather-gRPC-API/proto"
 	"google.golang.org/grpc/codes"
@@ -18,7 +19,7 @@ type Coordinates struct {
 	Longitude float32 `json:"lon"`
 }
 
-// Receives a gRPC request for Location
+// Receives a RequestLocation message
 // Returns a SendLocation message with the Latitude and Longitude
 func (s *Server) Location(ctx context.Context, in *pb.RequestLocation) (*pb.SendLocation, error) {
 	log.Printf("'Location' called, location: %v\n", in.Location)
@@ -28,11 +29,16 @@ func (s *Server) Location(ctx context.Context, in *pb.RequestLocation) (*pb.Send
 
 	switch in.LocationType {
 	case pb.LocationType_LOCATION_TYPE_CITY:
-		lat, lon, err = getLocation(in.Location.GetCity(), s.ApiKey)
+		lat, lon, err = fetchCityCoords(in.Location.GetCity(), s.ApiKey)
 	case pb.LocationType_LOCATION_TYPE_ZIP_CODE:
-		lat, lon, err = getZipLocation(in.Location.GetZipCode(), s.ApiKey)
+		lat, lon, err = fetchZipCoords(in.Location.GetZipCode(), s.ApiKey)
 	default:
-		lat, lon, err = getLocation(in.Location.String(), s.ApiKey)
+		_, err = strconv.Atoi(in.Location.GetZipCode())
+		if err != nil {
+			lat, lon, err = fetchCityCoords(in.Location.GetCity(), s.ApiKey)
+		} else {
+			lat, lon, err = fetchZipCoords(in.Location.GetZipCode(), s.ApiKey)
+		}
 	}
 	if err != nil {
 		return nil, status.Errorf(
@@ -42,7 +48,6 @@ func (s *Server) Location(ctx context.Context, in *pb.RequestLocation) (*pb.Send
 				in.LocationType.String()),
 		)
 	}
-
 	return &pb.SendLocation{
 		Latitude:  lat,
 		Longitude: lon,
@@ -50,15 +55,14 @@ func (s *Server) Location(ctx context.Context, in *pb.RequestLocation) (*pb.Send
 }
 
 // Used internally to fetch precise locations
-// Receives the city name and the server's API key
-// Returns the latitude and longitude for the given location
-func getLocation(location string, key string) (float32, float32, error) {
-	log.Printf("'getLocation' called, location: %v\n", location)
+// Receives a city and the OpenWeather API key
+// Returns the latitude and longitude for the given location, otherwise an error
+func fetchCityCoords(city string, key string) (float32, float32, error) {
+	log.Printf("'fetchCityCoords' called, location: %v\n", city)
 
 	url := "http://api.openweathermap.org/geo/1.0/direct?q="
 	token := "&appid=" + key
-
-	url = url + location + token
+	url += city + token
 
 	res, err := http.Get(url)
 	if err != nil {
@@ -84,13 +88,15 @@ func getLocation(location string, key string) (float32, float32, error) {
 	return coords[0].Latitude, coords[0].Longitude, nil
 }
 
-func getZipLocation(zip string, key string) (float32, float32, error) {
-	log.Printf("'getZipLocation' called, zip code: %v\n", zip)
+// Used internally to fetch precise locations
+// Receives a zip code and the OpenWeather API key
+// Returns the latitude and longitude for the given location, otherwise an error
+func fetchZipCoords(zip string, key string) (float32, float32, error) {
+	log.Printf("'fetchZipCoords' called, zip code: %v\n", zip)
 
 	url := "https://api.openweathermap.org/geo/1.0/zip?zip="
 	token := "&appid=" + key
-
-	url = url + zip + token
+	url += zip + token
 
 	res, err := http.Get(url)
 	if err != nil {
