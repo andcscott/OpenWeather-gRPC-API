@@ -6,14 +6,6 @@ option go_package = "codeberg.org/andcscott/OpenWeather-gRPC-API/proto";
 
 import "location.proto";
 
-// Sub-message used by Current & Extended to specify preferred units
-enum Units {
-  UNITS_UNSPECIFIED = 0;
-  UNITS_STANDARD = 1;
-  UNITS_METRIC = 2;
-  UNITS_IMPERIAL = 3;
-}
-
 /* Get the current forecast for a given location
  * location_type {LocationType} - name or value of the desired LocationType enum
  * units {Units} - name or value of the desired Units enum
@@ -44,4 +36,13 @@ message RequestFiveDay {
 // Response to RequestExtended
 message SendFiveDay {
   string payload = 1;
+}
+
+// Sub-message used by Current & Extended to specify preferred units
+// If unspecified, results will default to standard (temperature in Kelvin)
+enum Units {
+  UNITS_UNSPECIFIED = 0;
+  UNITS_STANDARD = 1;
+  UNITS_METRIC = 2;
+  UNITS_IMPERIAL = 3;
 }

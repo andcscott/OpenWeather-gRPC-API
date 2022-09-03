@@ -4,13 +4,31 @@ package weather;
 
 option go_package = "codeberg.org/andcscott/OpenWeather-gRPC-API/proto";
 
-// Sub-message for Coordinates
+/* Get the latitude and longitude for a given location
+ * Commented parameters in the message definition are not implemeneted yet
+ * location_type {LocationType} - name or value of the desired LocationType enum
+ * location {OneOfLocation} - city name, zip code, or coordinates
+ */
+message RequestLocation {
+  LocationType location_type = 1;
+  OneOfLocation location = 2;
+}
+
+// Response to RequestLocation
+message SendLocation {
+  float latitude = 1;
+  float longitude = 2;
+}
+
+// Sub-message for OneOfLocation
+// Used to specify actual coordinates for the desired location
 message Coordinates {
   float latitude = 1;
   float longitude = 2;
 }
 
-// Sub-message for RequestLocation
+// Sub-message for RequestLocation, RequestCurrent, and RequestFiveDay
+// Used to specify the desired location: city, zip code, or coordinates.
 message OneOfLocation {
   oneof location_id {
     string city = 1;
@@ -29,20 +47,4 @@ enum LocationType {
   LOCATION_TYPE_CITY = 1;
   LOCATION_TYPE_ZIP_CODE = 2;
   LOCATION_TYPE_COORDS = 3;
-}
-
-/* Get the latitude and longitude for a given location
- * Commented parameters in the message definition are not implemeneted yet
- * location_type {LocationType} - name or value of the desired LocationType enum
- * location {OneOfLocation} - city name, zip code, or coordinates
- */
-message RequestLocation {
-  LocationType location_type = 1;
-  OneOfLocation location = 2;
-}
-
-// Response to RequestLocation
-message SendLocation {
-  float latitude = 1;
-  float longitude = 2;
 }
