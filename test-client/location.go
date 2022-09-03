@@ -13,7 +13,7 @@ func doLocation(c pb.WeatherServiceClient) {
 		LocationType: pb.LocationType_LOCATION_TYPE_CITY,
 		Location: &pb.OneOfLocation{
 			LocationId: &pb.OneOfLocation_City{
-				City: "Corvallis",
+				City: "Seattle",
 			},
 		},
 	})
